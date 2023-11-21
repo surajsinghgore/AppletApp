@@ -1,7 +1,12 @@
 import java.applet.Applet;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 
-public class Index extends Applet {
+public class Index extends Applet implements ActionListener{
     // Label Created
     Label lb1 = new Label("Enter Name ");
     Label lb2 = new Label("Enter Email ");
@@ -21,6 +26,8 @@ public class Index extends Applet {
     TextField mobile = new TextField(50);
     Choice country = new Choice();
 
+    Button btn = new Button("Submit");
+String Message="";
     // init state in applet
     public void init() {
 
@@ -53,10 +60,45 @@ public class Index extends Applet {
         country.addItem("UK");
         country.addItem("Australia");
         add(country);
+        // button
+        
+        add(btn);
+        btn.addActionListener(this);
+        btn.setBackground(Color.red);
     }
 
-    public void paint(Graphics g) {
 
+public void actionPerformed(ActionEvent e){
+
+
+// create Database Connection
+try {
+    
+
+Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/appletWeb","root","Suraj@3224");
+String query="insert into data(name,email,gender,address,mobile,country) values(?,?,?,?,?,?)";
+
+PreparedStatement pstm=con.prepareStatement(query);
+pstm.setString(1,name.getText());
+pstm.setString(2,email.getText());
+pstm.setString(4,address.getText());
+int mobileNum=Integer.parseInt(mobile.getText());
+pstm.setLong(5,mobileNum);
+pstm.setString(6,country.getSelectedItem());
+
+pstm.execute();
+
+con.close();
+
+} catch (Exception err) {
+System.out.println(err);
+}
+Message="Successfully Send Data";
+repaint();
+}
+
+    public void paint(Graphics g) {
+g.drawString(Message, 100, 300);
     }
 
 }
