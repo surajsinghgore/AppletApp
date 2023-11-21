@@ -17,6 +17,9 @@ public class Index extends Applet {
     Checkbox chb1 = new Checkbox("male", chg, true);
     Checkbox chb2 = new Checkbox("female", chg, false);
     Checkbox chb3 = new Checkbox("transgender", chg, false);
+    TextArea address = new TextArea("", 5, 50);
+    TextField mobile = new TextField(50);
+    Choice country = new Choice();
 
     // init state in applet
     public void init() {
@@ -34,7 +37,22 @@ public class Index extends Applet {
         add(chb1);
         add(chb2);
         add(chb3);
+        setFont(new Font("ARIAL", Font.BOLD, 24));
+        // address
+        add(lb4);
+        add(address);
 
+        // mobile
+        add(lb5);
+        add(mobile);
+
+        // country
+        add(lb6);
+        country.addItem("India");
+        country.addItem("USA");
+        country.addItem("UK");
+        country.addItem("Australia");
+        add(country);
     }
 
     public void paint(Graphics g) {
